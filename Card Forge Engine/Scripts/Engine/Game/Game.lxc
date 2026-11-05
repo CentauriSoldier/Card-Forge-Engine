@@ -1,0 +1,161 @@
+--[[!
+@fqxn CardForgeEngine.Game
+@desc Minimal game context: stable card identities, named independent stacks and
+    automatic resolution diagnostics. No turn, zone or combat rules are assumed.
+!]]
+namespace CardForgeEngine
+{
+    class Game
+    {
+        private tCards = {};
+        private tKnownCards = {};
+        private tStacks = {};
+        private tResults = {};
+        private bResolving = false;
+        private tDispatch = {};
+
+        --[[!
+        @fqxn CardForgeEngine.Game.Game
+        @desc Starts with an empty registry and no implicitly selected stack.
+        !]]
+        public Game() {}
+
+        --[[!
+        @fqxn CardForgeEngine.Game.addCard
+        @desc Registers a card by its CFA-supplied identity. Removed cards may
+            return, but another instance cannot reuse an identity in this game.
+        @param CardForgeEngine.Card other Card entering the game.
+        @ret CardForgeEngine.Game This game.
+        !]]
+        public final addCard(other)
+        {
+            assert(class.isa(other, "CardForgeEngine.Card"), "Expected a CardForgeEngine.Card.");
+            local sID = other.getInstanceID();
+            assert(this.tKnownCards[sID] == nil or this.tKnownCards[sID] == other,
+                "Card instance ID belongs to a different card: "..sID);
+            this.tKnownCards[sID] = other;
+            this.tCards[sID] = other;
+            return this;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.getCard
+        @desc Looks up a card's current presence in this game.
+        @param string sInstanceID Stable instance ID.
+        @ret CardForgeEngine.Card|nil Live card, or nil when absent.
+        !]]
+        public final getCard(sInstanceID)
+        {
+            assert(rawtype(sInstanceID) == "string", "Card ID must be a string.");
+            return this.tCards[sInstanceID];
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.removeCard
+        @desc Removes presence while retaining identity ownership for this game.
+        @param string sInstanceID Card leaving the game.
+        @ret CardForgeEngine.Card|nil Removed card, or nil when already absent.
+        !]]
+        public final removeCard(sInstanceID)
+        {
+            local oCard = this.getCard(sInstanceID);
+            this.tCards[sInstanceID] = nil;
+            return oCard;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.createStack
+        @desc Creates an independent named LIFO stack; duplicate names are errors.
+        @param string sName Stack identifier selected by the game's rules.
+        @ret CardForgeEngine.Stack New stack.
+        !]]
+        public final createStack(sName)
+        {
+            assert(rawtype(sName) == "string" and sName:find("%S"), "Stack name must be nonempty.");
+            assert(this.tStacks[sName] == nil, "Stack already exists: "..sName);
+            local oStack = CardForgeEngine.Stack();
+            this.tStacks[sName] = oStack;
+            return oStack;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.getStack
+        @desc Retrieves a named stack without creating one or selecting a scheduler.
+        @param string sName Stack identifier.
+        @ret CardForgeEngine.Stack|nil Matching stack.
+        !]]
+        public final getStack(sName)
+        {
+            assert(rawtype(sName) == "string", "Stack name must be a string.");
+            return this.tStacks[sName];
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.isResolutionAuthorized
+        @desc Checks the private, single-dispatch permit used by the engine.
+            Exposes no permit and does not allow user code to start resolution.
+        @param CardForgeEngine.Operation other Currently dispatched Operation.
+        @param table tPermit Opaque permit supplied only by resolveNext.
+        @ret boolean Whether this exact dispatch is active.
+        !]]
+        public final isResolutionAuthorized(other, tPermit)
+        {
+            return this.bResolving and this.tDispatch.Operation == other
+                and this.tDispatch.Permit == tPermit;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.resolveNext
+        @desc Pops and resolves one Operation on the explicitly selected stack.
+            Reentrant resolution is rejected across every stack in this game.
+            User functions may enqueue later work. Skips/errors never prompt players.
+        @param string sName Stack to resolve.
+        @ret table Result; Empty means the selected stack has no work.
+        !]]
+        public final resolveNext(sName)
+        {
+            assert(not this.bResolving, "Cannot resolve another Operation during resolution.");
+            local oStack = assert(this.getStack(sName), "Unknown stack: "..tostring(sName));
+            local oOperation = oStack.pop();
+            if (not oOperation) then
+                return {Status = "Empty", Code = "StackEmpty", Stack = sName};
+            end
+
+            this.bResolving = true;
+            local tPermit = {};
+            this.tDispatch = {Operation = oOperation, Permit = tPermit};
+            local bOK, tResult = pcall(oOperation.resolve, this, tPermit);
+            this.tDispatch = {};
+            this.bResolving = false;
+            if (not bOK) then
+                tResult = {Status = "Failed", Code = "ResolverError",
+                    Operation = oOperation.getName(), Reason = tostring(tResult)};
+            end
+            tResult.Stack = sName;
+
+            -- Keep a bounded, automatic diagnostic history without retaining
+            -- live card references or requiring a UI to acknowledge each result.
+            local tStored = {};
+            for sKey, vValue in pairs(tResult) do tStored[sKey] = vValue; end
+            this.tResults[#this.tResults + 1] = tStored;
+            if (#this.tResults > 128) then table.remove(this.tResults, 1); end
+            return tResult;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Game.getResults
+        @desc Returns copied diagnostic records, oldest first, for the last 128
+            nonempty resolutions. Caller edits do not change engine history.
+        @ret table Array of result records.
+        !]]
+        public final getResults()
+        {
+            local tCopy = {};
+            for nIndex, tResult in ipairs(this.tResults) do
+                tCopy[nIndex] = {};
+                for sKey, vValue in pairs(tResult) do tCopy[nIndex][sKey] = vValue; end
+            end
+            return tCopy;
+        }
+    }
+}

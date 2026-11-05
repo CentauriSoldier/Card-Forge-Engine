@@ -1,0 +1,104 @@
+{
+  "platform": "Windows",
+  "architecture": "x86_64",
+  "configuration": "Release",
+  "lua": "5.4.8",
+  "wxWidgets": "3.2.12",
+  "wxLua": "3.2.0.2",
+  "wxLuaRevision": "d80dddbd78a1f93ea5f40e163f6d246da28a65ed",
+  "compiler": "llvm-mingw-20261104",
+  "debugLevel": 0,
+  "webviewBackend": "IE",
+  "webviewEdge": false,
+  "verification": "Native paint, wxLuma, STC/AUI, events, state and shutdown passed with isolated PATH.",
+  "runtimeFiles": [
+    {
+      "name": "libc++.dll",
+      "sha256": "a0f7544c848fd671657423163220de50c2cd3ade55344a30846679759a795d0e"
+    },
+    {
+      "name": "libunwind.dll",
+      "sha256": "609c7eec28fb7e53c49b6d9affd5c0332c2997824a1eb8ba064dbaf2013140c4"
+    },
+    {
+      "name": "lua.exe",
+      "sha256": "ea76d6405e5c02f5498ceb7feadde547b87c9f48ad92851cff158b786b50721b"
+    },
+    {
+      "name": "lua54.dll",
+      "sha256": "8289cb8fe4d2bc3306b7da42cfd17259a30eef60f15e77fa7236408c065c4edf"
+    },
+    {
+      "name": "wx.dll",
+      "sha256": "bd90595be2f70061f3748d0e5eb99cd3a8fca172de06605c97e9cb2716d5434e"
+    },
+    {
+      "name": "wxbase32u_clang_x64_cfe.dll",
+      "sha256": "8330a0e9740133981e01e92f8b382c21ea8ec763b2f879b6635c8405fecdbe22"
+    },
+    {
+      "name": "wxbase32u_net_clang_x64_cfe.dll",
+      "sha256": "5265009a3cfd74b2dc6716d46b50a7c95d1c066ae51120a79dbfc26295d13067"
+    },
+    {
+      "name": "wxbase32u_xml_clang_x64_cfe.dll",
+      "sha256": "f684907e7887f1b58fc2ecf96cfa1d596d3ede6ecf7a9915ab92f2859cada9aa"
+    },
+    {
+      "name": "wxmsw32u_adv_clang_x64_cfe.dll",
+      "sha256": "8a6a67e29f2c8f17216854cc93645d437eb1579d17d2272a2f069d5105d8f29a"
+    },
+    {
+      "name": "wxmsw32u_aui_clang_x64_cfe.dll",
+      "sha256": "47c585245c3a27903415e893ecb515d74327de8e4b25ce4e9abad97a902ca233"
+    },
+    {
+      "name": "wxmsw32u_core_clang_x64_cfe.dll",
+      "sha256": "bc9726ec2460addedd16b5d8b5939b545172b46aaedadafe888e326cbadd13f7"
+    },
+    {
+      "name": "wxmsw32u_gl_clang_x64_cfe.dll",
+      "sha256": "293b478975017231cab3e8e3f311db20cece36bebbf0bc231952bf94f83a5d40"
+    },
+    {
+      "name": "wxmsw32u_html_clang_x64_cfe.dll",
+      "sha256": "81aa1e7df7afbcde89aa0c32970d5272153ba15918528e86dd5bab465c7a93b2"
+    },
+    {
+      "name": "wxmsw32u_media_clang_x64_cfe.dll",
+      "sha256": "a4b830aa8d83f48027502f2f4643a818d9fdfd8bb61366d58b53b054db6945bf"
+    },
+    {
+      "name": "wxmsw32u_propgrid_clang_x64_cfe.dll",
+      "sha256": "d164fa715018fd07a1ddafa137fec73f80d8fad1dbce20b20ee6c51d8e11d2cc"
+    },
+    {
+      "name": "wxmsw32u_qa_clang_x64_cfe.dll",
+      "sha256": "bca998906d0090b6635b49e2aa37cc4b18e9dd22f3c691a95e7dd596659852ce"
+    },
+    {
+      "name": "wxmsw32u_ribbon_clang_x64_cfe.dll",
+      "sha256": "dc441f95eced2c98a24a2b8bb81eecb175f0cd396ef8f1f8829e116a978292b1"
+    },
+    {
+      "name": "wxmsw32u_richtext_clang_x64_cfe.dll",
+      "sha256": "7afc26b97d8acc861891121ed95bd2fdc21d48aa7c83fb9352cd04f1beb3006d"
+    },
+    {
+      "name": "wxmsw32u_stc_clang_x64_cfe.dll",
+      "sha256": "3ba480912219c19b6b7bce2351f471c0bff3bbb2f919fa04197c6bd54cddf6f3"
+    },
+    {
+      "name": "wxmsw32u_webview_clang_x64_cfe.dll",
+      "sha256": "b0e4caab31e020cac1b6e6d743cc42f1cf8c39ce16c3b4d78f1dbbf2f7f8cc50"
+    },
+    {
+      "name": "wxmsw32u_xrc_clang_x64_cfe.dll",
+      "sha256": "adfb681190ae408ec1e6a95548cf6b6e0efb1ad2b0dabe5603fb0c8f798f64eb"
+    },
+    {
+      "name": "wxrc.exe",
+      "sha256": "cef2c58913155ccc300e9bf954ce777175c00ae5e386656220c3678d76c448d5"
+    }
+  ]
+}

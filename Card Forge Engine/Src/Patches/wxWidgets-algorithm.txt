@@ -1,0 +1,9 @@
+# wxWidgets 3.2.12 / current libc++ compatibility
+#
+# Scintilla uses std::fill without directly including <algorithm> in these
+# translation units. New libc++ no longer supplies that header transitively.
+# The Windows build adds that standard header only; no behavior is changed.
+#
+# Applied to temporary source copies by BuildWindows.ps1:
+#   src/stc/scintilla/src/XPM.cxx
+#   src/stc/scintilla/src/SplitVector.h

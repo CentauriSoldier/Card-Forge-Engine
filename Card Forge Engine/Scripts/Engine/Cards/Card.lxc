@@ -1,0 +1,50 @@
+--[[!
+@fqxn CardForgeEngine.Card
+@desc Engine card identity layered on CoG's generic card metadata/presentation.
+    CFA supplies the instance ID; CFE never invents or silently changes it.
+!]]
+namespace CardForgeEngine
+{
+    class Card : CoG.BaseCard
+    {
+        private sInstanceID = "";
+
+        --[[!
+        @fqxn CardForgeEngine.Card.checkedName
+        @desc Validates identity before the parent constructor allocates components.
+        @param string sInstanceID Stable, nonempty CFA-supplied instance identifier.
+        @param string|nil sName Display name passed to CoG.
+        @ret string Display name.
+        @vis internal
+        !]]
+        private static checkedName(sInstanceID, sName)
+        {
+            assert(rawtype(sInstanceID) == "string" and sInstanceID:find("%S")
+                and not sInstanceID:find("%z"), "Card instance ID must be a nonempty string without NUL bytes.");
+            return sName or "Card";
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Card.Card
+        @desc Constructs a CoG card with immutable engine identity.
+        @param string sInstanceID Stable ID supplied by the authoring/runtime loader.
+        @param string|nil sName Display name.
+        @param string|nil sDescription Display description.
+        !]]
+        public Card(sInstanceID, sName, sDescription)
+        {
+            base(Card.checkedName(sInstanceID, sName), sDescription);
+            this.sInstanceID = sInstanceID;
+        }
+
+        --[[!
+        @fqxn CardForgeEngine.Card.getInstanceID
+        @desc Returns the stable instance ID used by queued Operations.
+        @ret string Instance identifier.
+        !]]
+        public final getInstanceID()
+        {
+            return this.sInstanceID;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/CentauriSoldier/wxLuma",
+  "revision": "f34add801c3de069ac826f5682eaf1b7c8d8390c",
+  "framework": "wxLuma",
+  "windowsRuntime": "Bin/Windows",
+  "verifiedUpstreamFiles": 746,
+  "archiveSHA256": "b757019c2d121b768144045044575ab8b6ab4ce984dc3404ba535bde9918989f",
+  "verificationScope": "Bundled wxLuma framework files; native runtime is built separately.",
+  "runtimeBuildInfo": "../Bin/Windows/build-info.json"
+}

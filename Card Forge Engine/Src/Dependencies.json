@@ -1,0 +1,28 @@
+{
+  "lua": {
+    "version": "5.4.8",
+    "url": "https://www.lua.org/ftp/lua-5.4.8.tar.gz",
+    "sha256": "4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"
+  },
+  "wxWidgets": {
+    "version": "3.2.12",
+    "url": "https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.12/wxWidgets-3.2.12.zip",
+    "sha256": "1f7ec935dddbba5cf454795dc255ef1e21c668533f5a5951a6034f2949c80433"
+  },
+  "wxLua": {
+    "version": "3.2.0.2",
+    "revision": "d80dddbd78a1f93ea5f40e163f6d246da28a65ed",
+    "url": "https://codeload.github.com/pkulchenko/wxlua/zip/d80dddbd78a1f93ea5f40e163f6d246da28a65ed",
+    "sha256": "7409ae4383c448a6e97205e4df7e1ffa28f592135aebf2b9a9e669835bb223cc"
+  },
+  "compiler": {
+    "version": "20261104",
+    "url": "https://github.com/mstorsjo/llvm-mingw/releases/download/20261104/llvm-mingw-20261104-ucrt-x86_64.zip",
+    "sha256": "552191b5754c49a5a20723276a6fc56541ea1922c4c50b7b669022333fc1b40f"
+  },
+  "ninja": {
+    "version": "1.13.2",
+    "url": "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip",
+    "sha256": "07fc8261b42b20e71d1720b39068c2e14ffcee6396b76fb7a795fb460b78dc65"
+  }
+}
